@@ -8,15 +8,16 @@ function setStatus(message) {
 };
 
 function refreshBalance() {
-  var meta = MetaCoin.deployed();
-
-  meta.getBalance.call(account, {from: account}).then(function(value) {
+  try {
     var balance_element = document.getElementById("balance");
-    balance_element.innerHTML = value.valueOf();
-  }).catch(function(e) {
+    balance_element.innerHTML = web3.eth.getBalance(Dividend.deployed().address);
+    var elementA = document.getElementById("balanceA");
+    elementA.innerHTML = web3.eth.getBalance(web3.eth.accounts[0]);
+    var elementB = document.getElementById("balanceB");
+    elementB.innerHTML = web3.eth.getBalance(web3.eth.accounts[1]);
+  } catch(e){
     console.log(e);
-    setStatus("Error getting balance; see log.");
-  });
+  }
 };
 
 function sendCoin() {
