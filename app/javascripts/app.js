@@ -1,5 +1,6 @@
 var accounts;
-var account;
+var shareHolderA;
+var shareHolderB;
 var balance;
 
 function setStatus(message) {
@@ -20,15 +21,15 @@ function refreshBalance() {
   }
 };
 
-function sendCoin() {
-  var meta = MetaCoin.deployed();
+function pay() {
+  var dividend = Dividend.deployed();
 
   var amount = parseInt(document.getElementById("amount").value);
-  var receiver = document.getElementById("receiver").value;
+  var sender = document.getElementById("sender").value;
 
   setStatus("Initiating transaction... (please wait)");
 
-  meta.sendCoin(receiver, amount, {from: account}).then(function() {
+  dividend.pay(amount, {from: sender}).then(function() {
     setStatus("Transaction complete!");
     refreshBalance();
   }).catch(function(e) {
@@ -50,7 +51,8 @@ window.onload = function() {
     }
 
     accounts = accs;
-    account = accounts[0];
+    shareHolderA = accounts[0];
+    shareHolderB = accounts[1];
 
     refreshBalance();
   });
